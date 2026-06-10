@@ -1,0 +1,16 @@
+﻿<Window x:Class="GestionBibliothequeLibrary.FenetreParametres"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Paramètres de l'application" Height="250" Width="400" WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="20">
+
+        <TextBlock Text="Chemin du dossier de sauvegarde :" FontWeight="Bold" Margin="0,0,0,5" />
+        <TextBox x:Name="txtCheminDossier" Padding="5" Margin="0,0,0,15" />
+
+        <TextBlock Text="Nom de la bibliothèque :" FontWeight="Bold" Margin="0,0,0,5" />
+        <TextBox x:Name="txtNomBiblio" Padding="5" Margin="0,0,0,15" />
+
+        <Button x:Name="btnSauvegarder" Content="Enregistrer les paramètres" Padding="10" Background="LightGreen" Click="btnSauvegarder_Click" />
+
+    </StackPanel>
+</Window>

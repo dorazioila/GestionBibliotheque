@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GestionBibliotheque/GestionBibliotheque.csproj" />
+  <Project Path="GestionBibliothequeLibrary/GestionBibliothequeLibrary.csproj" />
+</Solution>

@@ -1,0 +1,135 @@
+﻿<Window x:Class="GestionBibliothequeLibrary.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionBibliothequeLibrary"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="850">
+
+    <Window.Resources>
+        <local:CheminVersImageConverter x:Key="ImageConverter" />
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" x:Name="btnParametres" Content="⚙ Paramètres de l'application" 
+                Click="btnParametres_Click" Margin="0,0,0,10" 
+                Background="#F0F0F0" Padding="5" HorizontalAlignment="Right"/>
+
+        <TabControl Grid.Row="1">
+
+            <TabItem Header=" Mes Livres">
+
+                <StackPanel Margin="20">
+                    <TextBlock Text="Titre du livre :" FontWeight="Bold" />
+                    <TextBox x:Name="txtTitre" Margin="0,0,0,10" />
+
+                    <TextBlock Text="Auteur du livre :" FontWeight="Bold" />
+                    <TextBox x:Name="txtAuteur" Margin="0,0,0,10" />
+
+                    <TextBlock Text="Date d'ajout :" FontWeight="Bold" />
+                    <DatePicker x:Name="dpDateAjout" Margin="0,0,0,15" />
+
+                    <Button x:Name="btnAjouter" Content="Ajouter le livre" Padding="10" Background="LightBlue" Click="btnAjouter_Click" />
+
+                    <DataGrid x:Name="dgvLivres" 
+                              ItemsSource="{Binding Livres}" 
+                              AutoGenerateColumns="False" 
+                              CellEditEnding="dgvLivres_CellEditEnding"
+                              PreviewKeyDown="dgvLivres_PreviewKeyDown"
+                              Margin="0,20,0,0" 
+                              Height="250" 
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Titre" Binding="{Binding Titre}" Width="*" />
+                            <DataGridTextColumn Header="Auteur" Binding="{Binding Auteur}" Width="*" />
+
+                            <DataGridTemplateColumn Header="Date d'ajout" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding DateAjout}" BorderThickness="0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Couverture" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding CheminImageCouverture, Converter={StaticResource ImageConverter}}" 
+                                               Height="60" Stretch="Uniform" Margin="2" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header=" Suivi des Emprunts">
+                <StackPanel Margin="20">
+                    <TextBlock Text="Enregistrer un nouvel emprunt" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="5">
+                            <TextBlock Text="Membre :" FontWeight="Bold"/>
+                            <ComboBox x:Name="cbMembres" 
+                          ItemsSource="{Binding Membres}" 
+                          DisplayMemberPath="Nom" 
+                          Padding="5"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5">
+                            <TextBlock Text="Livre :" FontWeight="Bold"/>
+                            <ComboBox x:Name="cbLivres" 
+                          ItemsSource="{Binding Livres}" 
+                          DisplayMemberPath="Titre" 
+                          Padding="5"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="5">
+                            <TextBlock Text="Retour prévu :" FontWeight="Bold"/>
+                            <DatePicker x:Name="dpRetour" Padding="5"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Button x:Name="btnAjouterEmprunt" 
+                Content="Confirmer l'emprunt" 
+                Click="btnAjouterEmprunt_Click" 
+                Margin="5,10,5,20" 
+                Padding="10" 
+                Background="LightGreen"/>
+
+                    <Separator Margin="0,0,0,20"/>
+
+                    <TextBlock Text="Historique des emprunts :" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                    <DataGrid ItemsSource="{Binding Emprunts}" AutoGenerateColumns="False" Height="200" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Emprunteur" Binding="{Binding Emprunteur.Nom}" Width="*" />
+                            <DataGridTextColumn Header="Livre" Binding="{Binding LivreEmprunte.Titre}" Width="*" />
+                            <DataGridTextColumn Header="Date Emprunt" Binding="{Binding DateEmprunt, StringFormat=dd/MM/yyyy}" Width="100" />
+                            <DataGridTextColumn Header="Retour Prévu" Binding="{Binding DateRetourPrevue, StringFormat=dd/MM/yyyy}" Width="100" />
+                            <DataGridCheckBoxColumn Header="Rendu" Binding="{Binding EstRendu}" Width="60"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>
